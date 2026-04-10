@@ -1,0 +1,403 @@
+event_id,time_ms,label,scenario,direction,src_ip,dst_ip,src_port,dst_port,protocol,flags,decision,rule_id,reason,circuit_id,circuit_state,active_circuits,processing_ms
+1,62,benign,web_browsing,outbound,10.0.0.13,192.0.2.44,56474,80,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.06317
+2,80,benign,web_browsing,inbound,192.0.2.44,10.0.0.13,80,56474,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.01162
+3,94,benign,web_browsing,outbound,10.0.0.13,192.0.2.44,56474,80,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00821
+4,132,benign,web_browsing,outbound,10.0.0.13,192.0.2.44,56474,80,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00746
+5,152,benign,web_browsing,inbound,192.0.2.44,10.0.0.13,80,56474,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00746
+6,200,benign,web_browsing,outbound,10.0.0.13,192.0.2.44,56474,80,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.0075
+7,220,benign,web_browsing,inbound,192.0.2.44,10.0.0.13,80,56474,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00742
+8,288,benign,web_browsing,outbound,10.0.0.13,192.0.2.44,56474,80,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00712
+9,304,benign,web_browsing,inbound,192.0.2.44,10.0.0.13,80,56474,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00754
+10,346,malicious,inbound_port_scan,inbound,45.88.10.10,10.0.0.21,34491,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01279
+11,353,malicious,inbound_port_scan,inbound,45.88.10.10,10.0.0.13,46131,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01129
+12,361,malicious,inbound_port_scan,inbound,45.88.10.10,10.0.0.21,59926,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01108
+13,370,malicious,inbound_port_scan,inbound,45.88.10.10,10.0.0.11,56520,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01108
+14,378,malicious,inbound_port_scan,inbound,45.88.10.10,10.0.0.13,57496,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01096
+15,384,malicious,inbound_port_scan,inbound,45.88.10.11,10.0.0.13,35776,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01108
+16,393,malicious,inbound_port_scan,inbound,45.88.10.11,10.0.0.21,33550,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01096
+17,399,malicious,inbound_port_scan,inbound,45.88.10.11,10.0.0.13,50976,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01088
+18,406,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,20166,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.02
+19,408,malicious,inbound_port_scan,inbound,45.88.10.11,10.0.0.11,51460,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01187
+20,415,malicious,inbound_port_scan,inbound,45.88.10.11,10.0.0.13,33328,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01121
+21,423,malicious,inbound_port_scan,inbound,45.88.10.12,10.0.0.13,44939,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01112
+22,424,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,20166,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00733
+23,431,malicious,inbound_port_scan,inbound,45.88.10.12,10.0.0.11,39379,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01117
+24,436,malicious,inbound_port_scan,inbound,45.88.10.12,10.0.0.11,39751,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01117
+25,438,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,20166,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00713
+26,440,malicious,inbound_port_scan,inbound,45.88.10.12,10.0.0.12,55202,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01146
+27,448,malicious,inbound_port_scan,inbound,45.88.10.12,10.0.0.13,33887,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.011
+28,455,malicious,inbound_port_scan,inbound,45.88.10.13,10.0.0.12,55328,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01125
+29,462,malicious,inbound_port_scan,inbound,45.88.10.13,10.0.0.21,56719,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01096
+30,467,malicious,inbound_port_scan,inbound,45.88.10.13,10.0.0.21,46389,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01258
+31,472,malicious,inbound_port_scan,inbound,45.88.10.13,10.0.0.12,33862,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01154
+32,476,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,20166,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00725
+33,481,malicious,inbound_port_scan,inbound,45.88.10.13,10.0.0.21,48709,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01129
+34,486,malicious,inbound_port_scan,inbound,45.88.10.14,10.0.0.12,33531,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01088
+35,490,malicious,inbound_port_scan,inbound,45.88.10.14,10.0.0.13,63381,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01088
+36,496,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,20166,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00713
+37,497,malicious,inbound_port_scan,inbound,45.88.10.14,10.0.0.13,52627,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01096
+38,502,malicious,inbound_port_scan,inbound,45.88.10.14,10.0.0.11,43750,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01088
+39,510,malicious,inbound_port_scan,inbound,45.88.10.14,10.0.0.11,49381,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01112
+40,516,malicious,inbound_port_scan,inbound,45.88.10.15,10.0.0.13,35686,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01112
+41,525,malicious,inbound_port_scan,inbound,45.88.10.15,10.0.0.11,47912,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01096
+42,532,malicious,inbound_port_scan,inbound,45.88.10.15,10.0.0.11,46538,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01092
+43,541,malicious,inbound_port_scan,inbound,45.88.10.15,10.0.0.12,58153,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01117
+44,550,malicious,inbound_port_scan,inbound,45.88.10.15,10.0.0.13,47237,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01062
+45,550,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,20166,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00687
+46,558,malicious,inbound_port_scan,inbound,45.88.10.16,10.0.0.13,54523,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01071
+47,563,malicious,inbound_port_scan,inbound,45.88.10.16,10.0.0.13,55534,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01062
+48,570,malicious,inbound_port_scan,inbound,45.88.10.16,10.0.0.21,63068,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01058
+49,570,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,20166,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00675
+50,579,malicious,inbound_port_scan,inbound,45.88.10.16,10.0.0.13,44314,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.011
+51,584,malicious,inbound_port_scan,inbound,45.88.10.16,10.0.0.21,42078,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01033
+52,591,malicious,inbound_port_scan,inbound,45.88.10.17,10.0.0.11,55228,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01033
+53,599,malicious,inbound_port_scan,inbound,45.88.10.17,10.0.0.21,34458,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01029
+54,608,malicious,inbound_port_scan,inbound,45.88.10.17,10.0.0.12,37518,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01029
+55,614,malicious,inbound_port_scan,inbound,45.88.10.17,10.0.0.13,49368,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01042
+56,615,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,20166,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00667
+57,619,malicious,inbound_port_scan,inbound,45.88.10.17,10.0.0.11,33202,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01129
+58,627,malicious,inbound_port_scan,inbound,45.88.10.18,10.0.0.12,52100,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01075
+59,631,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,20166,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00679
+60,635,malicious,inbound_port_scan,inbound,45.88.10.18,10.0.0.11,57773,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01079
+61,642,malicious,inbound_port_scan,inbound,45.88.10.18,10.0.0.12,38876,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01067
+62,646,malicious,inbound_port_scan,inbound,45.88.10.18,10.0.0.12,57507,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01046
+63,652,malicious,inbound_port_scan,inbound,45.88.10.18,10.0.0.13,52343,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01063
+64,656,malicious,inbound_port_scan,inbound,45.88.10.19,10.0.0.12,42630,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01096
+65,662,malicious,inbound_port_scan,inbound,45.88.10.19,10.0.0.13,50715,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01046
+66,665,malicious,risky_egress_attempt,outbound,10.0.0.12,203.0.114.38,47347,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,0,0.01121
+67,668,malicious,inbound_port_scan,inbound,45.88.10.19,10.0.0.12,57468,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01029
+68,673,malicious,inbound_port_scan,inbound,45.88.10.19,10.0.0.11,63458,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01042
+69,680,malicious,inbound_port_scan,inbound,45.88.10.19,10.0.0.13,43199,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01025
+70,687,malicious,risky_egress_attempt,outbound,10.0.0.12,203.0.114.37,31769,445,tcp,SYN,deny,202,Block risky egress service ports,,NONE,0,0.01058
+71,689,malicious,inbound_port_scan,inbound,45.88.10.20,10.0.0.11,43771,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01029
+72,695,malicious,inbound_port_scan,inbound,45.88.10.20,10.0.0.12,42743,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01038
+73,699,malicious,inbound_port_scan,inbound,45.88.10.20,10.0.0.11,32130,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01025
+74,700,malicious,risky_egress_attempt,outbound,10.0.0.13,203.0.114.27,50563,445,tcp,SYN,deny,202,Block risky egress service ports,,NONE,0,0.01054
+75,704,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,52131,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.01738
+76,705,malicious,inbound_port_scan,inbound,45.88.10.20,10.0.0.11,56117,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01058
+77,711,malicious,inbound_port_scan,inbound,45.88.10.20,10.0.0.12,42107,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01042
+78,716,malicious,risky_egress_attempt,outbound,10.0.0.12,203.0.114.44,43541,445,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01058
+79,719,malicious,inbound_port_scan,inbound,45.88.10.21,10.0.0.12,40291,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.0105
+80,722,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,52131,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00679
+81,723,malicious,inbound_port_scan,inbound,45.88.10.21,10.0.0.13,63756,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01029
+82,727,malicious,inbound_port_scan,inbound,45.88.10.21,10.0.0.11,56982,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01021
+83,731,malicious,risky_egress_attempt,outbound,10.0.0.13,203.0.114.19,41392,23,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01062
+84,733,malicious,inbound_port_scan,inbound,45.88.10.21,10.0.0.13,39703,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01046
+85,736,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,52131,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00679
+86,739,malicious,inbound_port_scan,inbound,45.88.10.21,10.0.0.21,64686,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01054
+87,743,malicious,inbound_port_scan,inbound,45.88.10.22,10.0.0.12,55506,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01021
+88,747,malicious,risky_egress_attempt,outbound,10.0.0.13,203.0.114.46,38009,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01058
+89,752,malicious,inbound_port_scan,inbound,45.88.10.22,10.0.0.21,54617,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01025
+90,756,malicious,inbound_port_scan,inbound,45.88.10.22,10.0.0.11,37758,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01021
+91,763,malicious,inbound_port_scan,inbound,45.88.10.22,10.0.0.13,49386,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01029
+92,765,malicious,risky_egress_attempt,outbound,10.0.0.21,203.0.114.11,41013,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01046
+93,772,malicious,inbound_port_scan,inbound,45.88.10.22,10.0.0.12,43032,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01054
+94,774,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,52131,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00675
+95,778,malicious,inbound_port_scan,inbound,45.88.10.23,10.0.0.21,53739,22,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01033
+96,782,malicious,risky_egress_attempt,outbound,10.0.0.21,203.0.114.31,26113,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.0105
+97,784,malicious,inbound_port_scan,inbound,45.88.10.23,10.0.0.21,58415,80,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01042
+98,790,malicious,inbound_port_scan,inbound,45.88.10.23,10.0.0.12,44876,443,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01038
+99,794,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,52131,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00671
+100,797,malicious,inbound_port_scan,inbound,45.88.10.23,10.0.0.12,54842,445,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01033
+101,803,malicious,inbound_port_scan,inbound,45.88.10.23,10.0.0.21,57010,3389,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01029
+102,806,malicious,risky_egress_attempt,outbound,10.0.0.21,203.0.114.50,50558,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01096
+103,830,malicious,risky_egress_attempt,outbound,10.0.0.12,203.0.114.37,34539,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01083
+104,847,malicious,risky_egress_attempt,outbound,10.0.0.11,203.0.114.35,46738,23,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01083
+105,850,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,52131,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00696
+106,859,malicious,risky_egress_attempt,outbound,10.0.0.13,203.0.114.45,45993,445,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01096
+107,870,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,52131,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00704
+108,873,malicious,risky_egress_attempt,outbound,10.0.0.13,203.0.114.47,44114,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01092
+109,891,malicious,risky_egress_attempt,outbound,10.0.0.21,203.0.114.40,34100,23,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01075
+110,903,malicious,risky_egress_attempt,outbound,10.0.0.12,203.0.114.50,26959,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01083
+111,919,malicious,risky_egress_attempt,outbound,10.0.0.13,203.0.114.11,48551,23,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01092
+112,923,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,52131,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00704
+113,939,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,52131,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.007
+114,943,malicious,risky_egress_attempt,outbound,10.0.0.21,203.0.114.42,32073,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,0,0.01125
+115,965,malicious,risky_egress_attempt,outbound,10.0.0.13,203.0.114.15,41211,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,0,0.011
+116,980,malicious,risky_egress_attempt,outbound,10.0.0.11,203.0.114.16,28106,445,tcp,SYN,deny,202,Block risky egress service ports,,NONE,0,0.01079
+117,995,malicious,risky_egress_attempt,outbound,10.0.0.21,203.0.114.23,42860,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,0,0.01079
+118,1009,malicious,risky_egress_attempt,outbound,10.0.0.13,203.0.114.15,41599,445,tcp,SYN,deny,202,Block risky egress service ports,,NONE,0,0.01092
+119,1018,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,44664,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.01775
+120,1032,malicious,risky_egress_attempt,outbound,10.0.0.12,203.0.114.16,23927,445,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01121
+121,1034,malicious,blocked_subnet_probe,inbound,203.0.113.88,10.0.0.13,50828,22,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01129
+122,1036,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,44664,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.007
+123,1050,malicious,blocked_subnet_probe,inbound,203.0.113.66,10.0.0.21,51432,443,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01088
+124,1050,malicious,risky_egress_attempt,outbound,10.0.0.11,203.0.114.21,41030,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01079
+125,1050,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,44664,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00683
+126,1059,malicious,blocked_subnet_probe,inbound,203.0.113.165,10.0.0.21,38731,80,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.011
+127,1070,malicious,risky_egress_attempt,outbound,10.0.0.12,203.0.114.40,44557,3389,tcp,SYN,deny,202,Block risky egress service ports,,NONE,1,0.01075
+128,1075,malicious,blocked_subnet_probe,inbound,203.0.113.94,10.0.0.13,60547,80,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01071
+129,1088,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,44664,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00683
+130,1089,malicious,blocked_subnet_probe,inbound,203.0.113.71,10.0.0.21,49927,80,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.011
+131,1107,malicious,blocked_subnet_probe,inbound,203.0.113.14,10.0.0.21,34230,22,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01071
+132,1108,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,44664,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00679
+133,1124,malicious,blocked_subnet_probe,inbound,203.0.113.175,10.0.0.13,61627,22,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01088
+134,1134,malicious,blocked_subnet_probe,inbound,203.0.113.131,10.0.0.13,62062,443,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01242
+135,1148,malicious,blocked_subnet_probe,inbound,203.0.113.93,10.0.0.12,35116,22,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01062
+136,1159,malicious,blocked_subnet_probe,inbound,203.0.113.195,10.0.0.13,55089,22,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01087
+137,1166,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,44664,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00696
+138,1169,malicious,blocked_subnet_probe,inbound,203.0.113.156,10.0.0.12,31892,443,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01117
+139,1181,malicious,blocked_subnet_probe,inbound,203.0.113.54,10.0.0.21,38289,22,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01079
+140,1186,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,44664,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00687
+141,1193,malicious,blocked_subnet_probe,inbound,203.0.113.70,10.0.0.21,38959,22,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01079
+142,1207,malicious,blocked_subnet_probe,inbound,203.0.113.94,10.0.0.21,42389,80,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01067
+143,1225,malicious,blocked_subnet_probe,inbound,203.0.113.142,10.0.0.12,39435,80,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01104
+144,1237,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,44664,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00696
+145,1243,malicious,blocked_subnet_probe,inbound,203.0.113.16,10.0.0.11,48374,443,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01088
+146,1254,malicious,blocked_subnet_probe,inbound,203.0.113.36,10.0.0.13,53373,80,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01067
+147,1257,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,44664,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00696
+148,1270,malicious,blocked_subnet_probe,inbound,203.0.113.44,10.0.0.12,33515,80,tcp,SYN,deny,201,Block known hostile source subnet,,NONE,1,0.01079
+149,1320,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,44664,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00683
+150,1325,malicious,unknown_c2_channel,outbound,10.0.0.12,198.18.0.53,52095,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.02058
+151,1336,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,44664,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.007
+152,1348,malicious,unknown_c2_channel,outbound,10.0.0.11,198.18.0.39,34479,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.02021
+153,1371,malicious,unknown_c2_channel,outbound,10.0.0.13,198.18.0.70,26028,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01942
+154,1393,malicious,unknown_c2_channel,outbound,10.0.0.21,198.18.0.20,41266,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,0,0.01917
+155,1406,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,49979,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.01692
+156,1410,malicious,unknown_c2_channel,outbound,10.0.0.11,198.18.0.61,20495,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01992
+157,1424,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,49979,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00692
+158,1425,malicious,unknown_c2_channel,outbound,10.0.0.11,198.18.0.46,58404,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.02029
+159,1438,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,49979,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00687
+160,1451,malicious,unknown_c2_channel,outbound,10.0.0.13,198.18.0.43,21840,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01971
+161,1468,malicious,unknown_c2_channel,outbound,10.0.0.12,198.18.0.12,47711,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01929
+162,1476,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,49979,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00675
+163,1493,malicious,unknown_c2_channel,outbound,10.0.0.21,198.18.0.26,31184,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01937
+164,1496,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,49979,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00679
+165,1511,malicious,unknown_c2_channel,outbound,10.0.0.12,198.18.0.85,52411,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01917
+166,1529,malicious,unknown_c2_channel,outbound,10.0.0.13,198.18.0.21,55118,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01925
+167,1535,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,49979,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00667
+168,1550,malicious,unknown_c2_channel,outbound,10.0.0.21,198.18.0.59,43802,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01942
+169,1555,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,49979,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00675
+170,1576,malicious,unknown_c2_channel,outbound,10.0.0.12,198.18.0.40,48867,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01917
+171,1599,malicious,unknown_c2_channel,outbound,10.0.0.21,198.18.0.12,33831,6667,tcp,SYN,deny,DEFAULT_DENY,Implicit deny,,NONE,1,0.01921
+172,1618,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,49979,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00671
+173,1638,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,49979,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00679
+174,1701,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,49979,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00663
+175,1717,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,49979,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00671
+176,1725,malicious,lateral_movement,lateral,10.0.0.12,10.0.0.11,35165,139,tcp,SYN,deny,PERIMETER_ONLY,Traffic is not crossing the perimeter,,NONE,0,0.00558
+177,1750,malicious,lateral_movement,lateral,10.0.0.12,10.0.0.11,41280,135,tcp,SYN,deny,PERIMETER_ONLY,Traffic is not crossing the perimeter,,NONE,0,0.00529
+178,1774,malicious,lateral_movement,lateral,10.0.0.21,10.0.0.11,58042,135,tcp,SYN,deny,PERIMETER_ONLY,Traffic is not crossing the perimeter,,NONE,0,0.00517
+179,1796,malicious,lateral_movement,lateral,10.0.0.12,10.0.0.21,47611,139,tcp,SYN,deny,PERIMETER_ONLY,Traffic is not crossing the perimeter,,NONE,0,0.005
+180,1821,malicious,lateral_movement,lateral,10.0.0.13,10.0.0.12,30624,139,tcp,SYN,deny,PERIMETER_ONLY,Traffic is not crossing the perimeter,,NONE,0,0.00508
+181,1828,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,50216,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.01704
+182,1843,malicious,lateral_movement,lateral,10.0.0.21,10.0.0.12,53211,139,tcp,SYN,deny,PERIMETER_ONLY,Traffic is not crossing the perimeter,,NONE,1,0.00542
+183,1846,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,50216,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00692
+184,1859,malicious,lateral_movement,lateral,10.0.0.11,10.0.0.12,44587,139,tcp,SYN,deny,PERIMETER_ONLY,Traffic is not crossing the perimeter,,NONE,1,0.00517
+185,1860,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,50216,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00658
+186,1880,malicious,lateral_movement,lateral,10.0.0.21,10.0.0.13,33161,445,tcp,SYN,deny,PERIMETER_ONLY,Traffic is not crossing the perimeter,,NONE,1,0.00517
+187,1898,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,50216,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00667
+188,1904,malicious,lateral_movement,lateral,10.0.0.13,10.0.0.12,35166,139,tcp,SYN,deny,PERIMETER_ONLY,Traffic is not crossing the perimeter,,NONE,1,0.00521
+189,1918,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,50216,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00687
+190,1925,malicious,lateral_movement,lateral,10.0.0.13,10.0.0.21,64432,445,tcp,SYN,deny,PERIMETER_ONLY,Traffic is not crossing the perimeter,,NONE,1,0.00525
+191,1940,malicious,lateral_movement,lateral,10.0.0.13,10.0.0.12,32439,135,tcp,SYN,deny,PERIMETER_ONLY,Traffic is not crossing the perimeter,,NONE,1,0.005
+192,1963,malicious,lateral_movement,lateral,10.0.0.11,10.0.0.12,64579,139,tcp,SYN,deny,PERIMETER_ONLY,Traffic is not crossing the perimeter,,NONE,1,0.00504
+193,1966,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,50216,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00683
+194,1986,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,50216,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00675
+195,2023,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,50216,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.0065
+196,2043,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,50216,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00663
+197,2098,benign,web_browsing,outbound,10.0.0.13,198.51.100.20,50216,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00654
+198,2114,benign,web_browsing,inbound,198.51.100.20,10.0.0.13,443,50216,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00663
+199,2217,benign,web_browsing,outbound,10.0.0.21,198.51.100.20,46093,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.01704
+200,2235,benign,web_browsing,inbound,198.51.100.20,10.0.0.21,443,46093,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00696
+201,2249,benign,web_browsing,outbound,10.0.0.21,198.51.100.20,46093,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00667
+202,2287,benign,web_browsing,outbound,10.0.0.21,198.51.100.20,46093,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00679
+203,2307,benign,web_browsing,inbound,198.51.100.20,10.0.0.21,443,46093,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00654
+204,2371,benign,web_browsing,outbound,10.0.0.21,198.51.100.20,46093,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.0065
+205,2391,benign,web_browsing,inbound,198.51.100.20,10.0.0.21,443,46093,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00658
+206,2442,benign,web_browsing,outbound,10.0.0.21,198.51.100.20,46093,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00642
+207,2462,benign,web_browsing,inbound,198.51.100.20,10.0.0.21,443,46093,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.0065
+208,2513,benign,web_browsing,outbound,10.0.0.21,198.51.100.20,46093,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00642
+209,2529,benign,web_browsing,inbound,198.51.100.20,10.0.0.21,443,46093,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00658
+210,2621,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,28454,80,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.01658
+211,2639,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,80,28454,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00667
+212,2653,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,28454,80,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00642
+213,2691,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,28454,80,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+214,2711,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,80,28454,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.0065
+215,2772,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,28454,80,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00642
+216,2792,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,80,28454,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00642
+217,2836,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,28454,80,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00642
+218,2852,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,80,28454,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00675
+219,2963,benign,web_browsing,outbound,10.0.0.11,192.0.2.44,29333,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.018
+220,2981,benign,web_browsing,inbound,192.0.2.44,10.0.0.11,443,29333,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00675
+221,2995,benign,web_browsing,outbound,10.0.0.11,192.0.2.44,29333,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00633
+222,3033,benign,web_browsing,outbound,10.0.0.11,192.0.2.44,29333,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00642
+223,3053,benign,web_browsing,inbound,192.0.2.44,10.0.0.11,443,29333,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00654
+224,3103,benign,web_browsing,outbound,10.0.0.11,192.0.2.44,29333,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00642
+225,3123,benign,web_browsing,inbound,192.0.2.44,10.0.0.11,443,29333,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.0065
+226,3186,benign,web_browsing,outbound,10.0.0.11,192.0.2.44,29333,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00642
+227,3206,benign,web_browsing,inbound,192.0.2.44,10.0.0.11,443,29333,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00658
+228,3256,benign,web_browsing,outbound,10.0.0.11,192.0.2.44,29333,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00637
+229,3272,benign,web_browsing,inbound,192.0.2.44,10.0.0.11,443,29333,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00646
+230,3345,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,56686,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.0165
+231,3363,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,56686,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00667
+232,3377,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,56686,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00637
+233,3415,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,56686,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00654
+234,3435,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,56686,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00654
+235,3482,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,56686,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00637
+236,3502,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,56686,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+237,3558,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,56686,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+238,3578,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,56686,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+239,3630,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,56686,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00637
+240,3646,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,56686,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00646
+241,3747,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,39292,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.01667
+242,3765,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,39292,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00679
+243,3779,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,39292,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00654
+244,3817,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,39292,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00658
+245,3837,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,39292,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00658
+246,3898,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,39292,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00654
+247,3918,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,39292,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00671
+248,3969,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,39292,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00662
+249,3985,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,39292,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00658
+250,4051,benign,web_browsing,outbound,10.0.0.11,198.51.100.20,43588,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.01671
+251,4069,benign,web_browsing,inbound,198.51.100.20,10.0.0.11,443,43588,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00679
+252,4083,benign,web_browsing,outbound,10.0.0.11,198.51.100.20,43588,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00633
+253,4121,benign,web_browsing,outbound,10.0.0.11,198.51.100.20,43588,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00654
+254,4141,benign,web_browsing,inbound,198.51.100.20,10.0.0.11,443,43588,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00658
+255,4205,benign,web_browsing,outbound,10.0.0.11,198.51.100.20,43588,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00654
+256,4225,benign,web_browsing,inbound,198.51.100.20,10.0.0.11,443,43588,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00658
+257,4266,benign,web_browsing,outbound,10.0.0.11,198.51.100.20,43588,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.0065
+258,4286,benign,web_browsing,inbound,198.51.100.20,10.0.0.11,443,43588,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00658
+259,4337,benign,web_browsing,outbound,10.0.0.11,198.51.100.20,43588,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00642
+260,4353,benign,web_browsing,inbound,198.51.100.20,10.0.0.11,443,43588,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00658
+261,4463,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,56558,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.01646
+262,4481,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,56558,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00675
+263,4495,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,56558,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00633
+264,4533,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,56558,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00654
+265,4553,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,56558,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00658
+266,4609,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,56558,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+267,4629,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,56558,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00654
+268,4693,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,56558,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00662
+269,4713,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,56558,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00667
+270,4757,benign,web_browsing,outbound,10.0.0.21,198.51.100.30,56558,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00646
+271,4773,benign,web_browsing,inbound,198.51.100.30,10.0.0.21,443,56558,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.0065
+272,4857,benign,web_browsing,outbound,10.0.0.13,198.51.100.30,53762,80,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.01662
+273,4875,benign,web_browsing,inbound,198.51.100.30,10.0.0.13,80,53762,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00671
+274,4889,benign,web_browsing,outbound,10.0.0.13,198.51.100.30,53762,80,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+275,4927,benign,web_browsing,outbound,10.0.0.13,198.51.100.30,53762,80,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00667
+276,4947,benign,web_browsing,inbound,198.51.100.30,10.0.0.13,80,53762,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00671
+277,4990,benign,web_browsing,outbound,10.0.0.13,198.51.100.30,53762,80,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00667
+278,5010,benign,web_browsing,inbound,198.51.100.30,10.0.0.13,80,53762,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00663
+279,5059,benign,web_browsing,outbound,10.0.0.13,198.51.100.30,53762,80,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+280,5079,benign,web_browsing,inbound,198.51.100.30,10.0.0.13,80,53762,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.0065
+281,5151,benign,web_browsing,outbound,10.0.0.13,198.51.100.30,53762,80,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00637
+282,5167,benign,web_browsing,inbound,198.51.100.30,10.0.0.13,80,53762,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00658
+283,5244,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,37463,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.01733
+284,5262,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,37463,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00704
+285,5276,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,37463,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00658
+286,5314,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,37463,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00654
+287,5334,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,37463,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00654
+288,5397,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,37463,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00633
+289,5417,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,37463,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+290,5475,benign,web_browsing,outbound,10.0.0.21,192.0.2.44,37463,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00646
+291,5491,benign,web_browsing,inbound,192.0.2.44,10.0.0.21,443,37463,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00654
+292,5580,benign,web_browsing,outbound,10.0.0.11,198.51.100.20,49451,443,tcp,SYN,allow,101,Allow outbound web sessions,C-0001,SYN_SENT,1,0.01675
+293,5598,benign,web_browsing,inbound,198.51.100.20,10.0.0.11,443,49451,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00696
+294,5612,benign,web_browsing,outbound,10.0.0.11,198.51.100.20,49451,443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00663
+295,5650,benign,web_browsing,outbound,10.0.0.11,198.51.100.20,49451,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.0065
+296,5670,benign,web_browsing,inbound,198.51.100.20,10.0.0.11,443,49451,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00658
+297,5734,benign,web_browsing,outbound,10.0.0.11,198.51.100.20,49451,443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.0065
+298,5754,benign,web_browsing,inbound,198.51.100.20,10.0.0.11,443,49451,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00662
+299,5797,benign,web_browsing,outbound,10.0.0.11,198.51.100.20,49451,443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00658
+300,5813,benign,web_browsing,inbound,198.51.100.20,10.0.0.11,443,49451,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00658
+301,5874,benign,partner_api,outbound,10.0.0.11,198.51.100.44,49571,8443,tcp,SYN,allow,102,Allow partner API sessions,C-0001,SYN_SENT,1,0.02142
+302,5892,benign,partner_api,inbound,198.51.100.44,10.0.0.11,8443,49571,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00679
+303,5906,benign,partner_api,outbound,10.0.0.11,198.51.100.44,49571,8443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.01988
+304,5944,benign,partner_api,outbound,10.0.0.11,198.51.100.44,49571,8443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00717
+305,5964,benign,partner_api,inbound,198.51.100.44,10.0.0.11,8443,49571,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.007
+306,6017,benign,partner_api,outbound,10.0.0.11,198.51.100.44,49571,8443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+307,6037,benign,partner_api,inbound,198.51.100.44,10.0.0.11,8443,49571,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00658
+308,6097,benign,partner_api,outbound,10.0.0.11,198.51.100.44,49571,8443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00633
+309,6113,benign,partner_api,inbound,198.51.100.44,10.0.0.11,8443,49571,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00683
+310,6174,benign,partner_api,outbound,10.0.0.12,198.51.100.44,36242,8443,tcp,SYN,allow,102,Allow partner API sessions,C-0001,SYN_SENT,1,0.02117
+311,6192,benign,partner_api,inbound,198.51.100.44,10.0.0.12,8443,36242,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00671
+312,6206,benign,partner_api,outbound,10.0.0.12,198.51.100.44,36242,8443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00625
+313,6244,benign,partner_api,outbound,10.0.0.12,198.51.100.44,36242,8443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00633
+314,6264,benign,partner_api,inbound,198.51.100.44,10.0.0.12,8443,36242,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+315,6302,benign,partner_api,outbound,10.0.0.12,198.51.100.44,36242,8443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00629
+316,6322,benign,partner_api,inbound,198.51.100.44,10.0.0.12,8443,36242,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00642
+317,6384,benign,partner_api,outbound,10.0.0.12,198.51.100.44,36242,8443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00629
+318,6400,benign,partner_api,inbound,198.51.100.44,10.0.0.12,8443,36242,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00658
+319,6458,benign,partner_api,outbound,10.0.0.13,198.51.100.44,43412,8443,tcp,SYN,allow,102,Allow partner API sessions,C-0001,SYN_SENT,1,0.02079
+320,6476,benign,partner_api,inbound,198.51.100.44,10.0.0.13,8443,43412,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00667
+321,6490,benign,partner_api,outbound,10.0.0.13,198.51.100.44,43412,8443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00629
+322,6528,benign,partner_api,outbound,10.0.0.13,198.51.100.44,43412,8443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00629
+323,6548,benign,partner_api,inbound,198.51.100.44,10.0.0.13,8443,43412,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+324,6587,benign,partner_api,outbound,10.0.0.13,198.51.100.44,43412,8443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00638
+325,6607,benign,partner_api,inbound,198.51.100.44,10.0.0.13,8443,43412,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00637
+326,6650,benign,partner_api,outbound,10.0.0.13,198.51.100.44,43412,8443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00629
+327,6666,benign,partner_api,inbound,198.51.100.44,10.0.0.13,8443,43412,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.0065
+328,6742,benign,partner_api,outbound,10.0.0.21,198.51.100.44,28838,8443,tcp,SYN,allow,102,Allow partner API sessions,C-0001,SYN_SENT,1,0.02054
+329,6760,benign,partner_api,inbound,198.51.100.44,10.0.0.21,8443,28838,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00663
+330,6774,benign,partner_api,outbound,10.0.0.21,198.51.100.44,28838,8443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00629
+331,6812,benign,partner_api,outbound,10.0.0.21,198.51.100.44,28838,8443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.0065
+332,6832,benign,partner_api,inbound,198.51.100.44,10.0.0.21,8443,28838,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00667
+333,6884,benign,partner_api,outbound,10.0.0.21,198.51.100.44,28838,8443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.0065
+334,6904,benign,partner_api,inbound,198.51.100.44,10.0.0.21,8443,28838,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+335,6954,benign,partner_api,outbound,10.0.0.21,198.51.100.44,28838,8443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00629
+336,6970,benign,partner_api,inbound,198.51.100.44,10.0.0.21,8443,28838,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00642
+337,7056,benign,partner_api,outbound,10.0.0.12,198.51.100.44,53077,8443,tcp,SYN,allow,102,Allow partner API sessions,C-0001,SYN_SENT,1,0.02054
+338,7074,benign,partner_api,inbound,198.51.100.44,10.0.0.12,8443,53077,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00658
+339,7088,benign,partner_api,outbound,10.0.0.12,198.51.100.44,53077,8443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00629
+340,7126,benign,partner_api,outbound,10.0.0.12,198.51.100.44,53077,8443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00633
+341,7146,benign,partner_api,inbound,198.51.100.44,10.0.0.12,8443,53077,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00638
+342,7190,benign,partner_api,outbound,10.0.0.12,198.51.100.44,53077,8443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00629
+343,7210,benign,partner_api,inbound,198.51.100.44,10.0.0.12,8443,53077,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00683
+344,7255,benign,partner_api,outbound,10.0.0.12,198.51.100.44,53077,8443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00637
+345,7271,benign,partner_api,inbound,198.51.100.44,10.0.0.12,8443,53077,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00646
+346,7353,benign,partner_api,outbound,10.0.0.12,198.51.100.44,28870,8443,tcp,SYN,allow,102,Allow partner API sessions,C-0001,SYN_SENT,1,0.02046
+347,7371,benign,partner_api,inbound,198.51.100.44,10.0.0.12,8443,28870,tcp,SYN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,SYN_RECEIVED,1,0.00663
+348,7385,benign,partner_api,outbound,10.0.0.12,198.51.100.44,28870,8443,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00625
+349,7423,benign,partner_api,outbound,10.0.0.12,198.51.100.44,28870,8443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00637
+350,7443,benign,partner_api,inbound,198.51.100.44,10.0.0.12,8443,28870,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00637
+351,7503,benign,partner_api,outbound,10.0.0.12,198.51.100.44,28870,8443,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00629
+352,7523,benign,partner_api,inbound,198.51.100.44,10.0.0.12,8443,28870,tcp,PSH-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00646
+353,7591,benign,partner_api,outbound,10.0.0.12,198.51.100.44,28870,8443,tcp,FIN-ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSING,1,0.00629
+354,7607,benign,partner_api,inbound,198.51.100.44,10.0.0.12,8443,28870,tcp,ACK,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,CLOSED,0,0.00642
+355,7657,benign,dns_resolution,outbound,10.0.0.21,1.1.1.1,29734,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0001,ESTABLISHED,1,0.01354
+356,7673,benign,dns_resolution,inbound,1.1.1.1,10.0.0.21,53,29734,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0001,ESTABLISHED,1,0.00638
+357,7749,benign,dns_resolution,outbound,10.0.0.21,8.8.8.8,26955,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0002,ESTABLISHED,2,0.01242
+358,7763,benign,dns_resolution,inbound,8.8.8.8,10.0.0.21,53,26955,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0002,ESTABLISHED,2,0.00637
+359,7809,benign,dns_resolution,outbound,10.0.0.13,1.1.1.1,21690,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0003,ESTABLISHED,3,0.01287
+360,7817,benign,dns_resolution,inbound,1.1.1.1,10.0.0.13,53,21690,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0003,ESTABLISHED,3,0.00637
+361,7910,benign,dns_resolution,outbound,10.0.0.13,1.1.1.1,49500,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0004,ESTABLISHED,4,0.01267
+362,7923,benign,dns_resolution,inbound,1.1.1.1,10.0.0.13,53,49500,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0004,ESTABLISHED,4,0.00633
+363,7999,benign,dns_resolution,outbound,10.0.0.21,8.8.8.8,30085,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0005,ESTABLISHED,5,0.01271
+364,8016,benign,dns_resolution,inbound,8.8.8.8,10.0.0.21,53,30085,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0005,ESTABLISHED,5,0.00637
+365,8083,benign,dns_resolution,outbound,10.0.0.21,1.1.1.1,50069,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0006,ESTABLISHED,6,0.01733
+366,8100,benign,dns_resolution,inbound,1.1.1.1,10.0.0.21,53,50069,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0006,ESTABLISHED,6,0.00671
+367,8149,benign,dns_resolution,outbound,10.0.0.21,8.8.8.8,32811,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0007,ESTABLISHED,7,0.01254
+368,8167,benign,dns_resolution,inbound,8.8.8.8,10.0.0.21,53,32811,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0007,ESTABLISHED,7,0.00679
+369,8211,benign,dns_resolution,outbound,10.0.0.11,1.1.1.1,32355,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0008,ESTABLISHED,8,0.01279
+370,8226,benign,dns_resolution,inbound,1.1.1.1,10.0.0.11,53,32355,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0008,ESTABLISHED,8,0.00667
+371,8289,benign,dns_resolution,outbound,10.0.0.12,8.8.8.8,53872,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0009,ESTABLISHED,9,0.01267
+372,8299,benign,dns_resolution,inbound,8.8.8.8,10.0.0.12,53,53872,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0009,ESTABLISHED,9,0.00671
+373,8360,benign,dns_resolution,outbound,10.0.0.21,1.1.1.1,47876,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0010,ESTABLISHED,10,0.01292
+374,8376,benign,dns_resolution,inbound,1.1.1.1,10.0.0.21,53,47876,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0010,ESTABLISHED,10,0.00692
+375,8433,benign,dns_resolution,outbound,10.0.0.21,1.1.1.1,32268,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0011,ESTABLISHED,11,0.01471
+376,8446,benign,dns_resolution,inbound,1.1.1.1,10.0.0.21,53,32268,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0011,ESTABLISHED,11,0.00692
+377,8509,benign,dns_resolution,outbound,10.0.0.21,1.1.1.1,47245,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0012,ESTABLISHED,12,0.01279
+378,8521,benign,dns_resolution,inbound,1.1.1.1,10.0.0.21,53,47245,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0012,ESTABLISHED,12,0.00683
+379,8589,benign,dns_resolution,outbound,10.0.0.13,1.1.1.1,49136,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0013,ESTABLISHED,13,0.01296
+380,8598,benign,dns_resolution,inbound,1.1.1.1,10.0.0.13,53,49136,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0013,ESTABLISHED,13,0.00692
+381,8693,benign,dns_resolution,outbound,10.0.0.13,8.8.8.8,34046,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0014,ESTABLISHED,14,0.01312
+382,8704,benign,dns_resolution,inbound,8.8.8.8,10.0.0.13,53,34046,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0014,ESTABLISHED,14,0.00704
+383,8753,benign,dns_resolution,outbound,10.0.0.21,1.1.1.1,46738,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0015,ESTABLISHED,15,0.01308
+384,8769,benign,dns_resolution,inbound,1.1.1.1,10.0.0.21,53,46738,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0015,ESTABLISHED,15,0.00746
+385,8844,benign,dns_resolution,outbound,10.0.0.11,1.1.1.1,30273,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0016,ESTABLISHED,16,0.01329
+386,8857,benign,dns_resolution,inbound,1.1.1.1,10.0.0.11,53,30273,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0016,ESTABLISHED,16,0.00725
+387,8950,benign,dns_resolution,outbound,10.0.0.12,8.8.8.8,38381,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0017,ESTABLISHED,17,0.01325
+388,8966,benign,dns_resolution,inbound,8.8.8.8,10.0.0.12,53,38381,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0017,ESTABLISHED,17,0.00717
+389,9042,benign,dns_resolution,outbound,10.0.0.13,1.1.1.1,56420,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0018,ESTABLISHED,18,0.01321
+390,9052,benign,dns_resolution,inbound,1.1.1.1,10.0.0.13,53,56420,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0018,ESTABLISHED,18,0.00725
+391,9116,benign,dns_resolution,outbound,10.0.0.11,1.1.1.1,31224,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0019,ESTABLISHED,19,0.01329
+392,9125,benign,dns_resolution,inbound,1.1.1.1,10.0.0.11,53,31224,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0019,ESTABLISHED,19,0.00754
+393,9195,benign,dns_resolution,outbound,10.0.0.13,8.8.8.8,26967,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0020,ESTABLISHED,20,0.01346
+394,9211,benign,dns_resolution,inbound,8.8.8.8,10.0.0.13,53,26967,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0020,ESTABLISHED,20,0.00725
+395,9277,benign,dns_resolution,outbound,10.0.0.11,1.1.1.1,40617,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0021,ESTABLISHED,21,0.01321
+396,9287,benign,dns_resolution,inbound,1.1.1.1,10.0.0.11,53,40617,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0021,ESTABLISHED,21,0.00729
+397,9356,benign,dns_resolution,outbound,10.0.0.11,8.8.8.8,46977,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0022,ESTABLISHED,22,0.01396
+398,9376,benign,dns_resolution,inbound,8.8.8.8,10.0.0.11,53,46977,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0022,ESTABLISHED,22,0.00742
+399,9445,benign,dns_resolution,outbound,10.0.0.11,8.8.8.8,26320,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0023,ESTABLISHED,23,0.01342
+400,9456,benign,dns_resolution,inbound,8.8.8.8,10.0.0.11,53,26320,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0023,ESTABLISHED,23,0.0075
+401,9519,benign,dns_resolution,outbound,10.0.0.11,8.8.8.8,56777,53,udp,QUERY,allow,103,Allow outbound DNS and NTP,C-0024,ESTABLISHED,24,0.01342
+402,9536,benign,dns_resolution,inbound,8.8.8.8,10.0.0.11,53,56777,udp,RESPONSE,allow,STATEFUL_RETURN,Matched existing circuit table entry,C-0024,ESTABLISHED,24,0.00762

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DoS Firewall Simulator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+
+  :root {
+    --bg: #050a0e;
+    --panel: #080f14;
+    --border: #0f2a35;
+    --green: #00ff88;
+    --red: #ff2244;
+    --yellow: #ffcc00;
+    --cyan: #00d4ff;
+    --dim: #1a3a4a;
+    --text: #a0d4e0;
+    --muted: #3a6070;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    padding: 16px;
+    overflow-x: hidden;
+  }
+
+  /* Scanline effect */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(14px, 2.5vw, 22px);
+    color: var(--cyan);
+    letter-spacing: 4px;
+    text-shadow: 0 0 20px rgba(0,212,255,0.6);
+    text-align: center;
+    padding: 10px 0 4px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0.4;
+  }
+
+  .panel-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  /* Stats row */
+  .stats-row { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+
+  .stat-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(18px, 3vw, 28px);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label { font-size: 9px; letter-spacing: 2px; color: var(--muted); }
+
+  .sv-total { color: var(--cyan); text-shadow: 0 0 15px rgba(0,212,255,0.5); }
+  .sv-blocked { color: var(--red); text-shadow: 0 0 15px rgba(255,34,68,0.5); }
+  .sv-allowed { color: var(--green); text-shadow: 0 0 15px rgba(0,255,136,0.5); }
+  .sv-ips { color: var(--yellow); text-shadow: 0 0 15px rgba(255,204,0,0.5); }
+  .sv-rate { color: var(--cyan); text-shadow: 0 0 15px rgba(0,212,255,0.4); }
+
+  /* Log panel */
+  .log-panel { grid-column: 1 / 3; grid-row: 2; height: 280px; }
+
+  .log-body {
+    height: 240px;
+    overflow-y: auto;
+    font-size: 11px;
+    line-height: 1.7;
+  }
+
+  .log-body::-webkit-scrollbar { width: 4px; }
+  .log-body::-webkit-scrollbar-track { background: var(--bg); }
+  .log-body::-webkit-scrollbar-thumb { background: var(--dim); }
+
+  .log-entry { display: flex; gap: 8px; padding: 2px 0; border-bottom: 1px solid rgba(15,42,53,0.5); }
+  .log-time { color: var(--muted); min-width: 65px; }
+  .log-ip { min-width: 110px; color: var(--cyan); }
+  .log-action-allow { color: var(--green); min-width: 65px; font-weight: bold; }
+  .log-action-block { color: var(--red); min-width: 65px; font-weight: bold; }
+  .log-msg { color: var(--text); font-size: 10px; }
+
+  /* IP blocklist */
+  .blocklist-panel { grid-column: 3; grid-row: 2; height: 280px; }
+
+  .blocklist-body { height: 240px; overflow-y: auto; font-size: 11px; }
+  .blocklist-body::-webkit-scrollbar { width: 4px; }
+  .blocklist-body::-webkit-scrollbar-track { background: var(--bg); }
+  .blocklist-body::-webkit-scrollbar-thumb { background: var(--dim); }
+
+  .block-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 6px;
+    margin-bottom: 3px;
+    background: rgba(255,34,68,0.05);
+    border: 1px solid rgba(255,34,68,0.15);
+    border-radius: 2px;
+    animation: blockPulse 0.4s ease;
+  }
+
+  @keyframes blockPulse {
+    0% { background: rgba(255,34,68,0.3); }
+    100% { background: rgba(255,34,68,0.05); }
+  }
+
+  .block-ip { color: var(--red); }
+  .block-count { color: var(--yellow); font-size: 10px; }
+  .block-badge {
+    background: rgba(255,34,68,0.2);
+    border: 1px solid rgba(255,34,68,0.4);
+    color: var(--red);
+    font-size: 8px;
+    padding: 1px 5px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+  }
+
+  /* Traffic visualizer */
+  .traffic-panel { grid-column: 1 / 3; grid-row: 3; }
+
+  .traffic-bars {
+    display: flex;
+    align-items: flex-end;
+    height: 80px;
+    gap: 3px;
+    overflow: hidden;
+  }
+
+  .t-bar {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    transition: height 0.2s ease;
+    min-width: 4px;
+  }
+
+  /* Config & Controls */
+  .controls-panel { grid-column: 3; grid-row: 3; }
+
+  .config-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 11px;
+  }
+
+  .config-label { color: var(--muted); font-size: 10px; letter-spacing: 1px; }
+
+  .config-val {
+    color: var(--yellow);
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+  }
+
+  .slider-wrap { display: flex; align-items: center; gap: 8px; }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 90px;
+    height: 3px;
+    background: var(--dim);
+    border-radius: 2px;
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px; height: 10px;
+    background: var(--cyan);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 6px var(--cyan);
+  }
+
+  .btn-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+
+  button {
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 7px 12px;
+    border: 1px solid;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+    flex: 1;
+  }
+
+  .btn-attack {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .btn-attack:hover, .btn-attack.active {
+    background: rgba(255,34,68,0.15);
+    box-shadow: 0 0 12px rgba(255,34,68,0.3);
+  }
+
+  .btn-stop {
+    border-color: var(--yellow);
+    color: var(--yellow);
+  }
+  .btn-stop:hover {
+    background: rgba(255,204,0,0.1);
+  }
+
+  .btn-reset {
+    border-color: var(--muted);
+    color: var(--muted);
+  }
+  .btn-reset:hover {
+    background: rgba(160,212,224,0.05);
+    border-color: var(--text);
+    color: var(--text);
+  }
+
+  /* Status bar */
+  .status-bar {
+    max-width: 1200px;
+    margin: 10px auto 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  .dot-active { background: var(--green); box-shadow: 0 0 6px var(--green); animation: blink 1s infinite; }
+  .dot-attack { background: var(--red); box-shadow: 0 0 6px var(--red); animation: blink 0.3s infinite; }
+  .dot-idle { background: var(--muted); }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .firewall-status { color: var(--green); }
+  .firewall-status.under-attack { color: var(--red); animation: blink 0.5s infinite; }
+
+  /* Tooltip for firewall rules */
+  .rules-section { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
+  .rule-item { font-size: 10px; color: var(--muted); padding: 2px 0; }
+  .rule-item span { color: var(--green); }
+
+  /* Attack wave animation */
+  @keyframes attackWave {
+    0% { opacity: 0; transform: translateX(-10px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  .log-entry { animation: attackWave 0.15s ease; }
+</style>
+</head>
+<body>
+
+<h1>⚡ DOS FIREWALL SIMULATOR ⚡</h1>
+<p class="subtitle">RATE-LIMITING / SYN-FLOOD PROTECTION ENGINE — LIVE SIMULATION</p>
+
+<div class="stats-row">
+  <div class="stat-box">
+    <div class="stat-value sv-total" id="stat-total">0</div>
+    <div class="stat-label">TOTAL PACKETS</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value sv-allowed" id="stat-allowed">0</div>
+    <div class="stat-label">ALLOWED</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value sv-blocked" id="stat-blocked">0</div>
+    <div class="stat-label">BLOCKED</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value sv-ips" id="stat-ips">0</div>
+    <div class="stat-label">IPS BANNED</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value sv-rate" id="stat-rate">0</div>
+    <div class="stat-label">PACKETS/SEC</div>
+  </div>
+</div>
+
+<div class="grid">
+
+  <!-- Log Panel -->
+  <div class="panel log-panel">
+    <div class="panel-title">▶ FIREWALL PACKET LOG</div>
+    <div class="log-body" id="log-body"></div>
+  </div>
+
+  <!-- Blocklist -->
+  <div class="panel blocklist-panel">
+    <div class="panel-title">🔒 BLOCKED IP REGISTRY</div>
+    <div class="blocklist-body" id="blocklist-body">
+      <div style="color:var(--muted);font-size:11px;text-align:center;padding-top:40px;">No IPs blocked yet...</div>
+    </div>
+  </div>
+
+  <!-- Traffic chart -->
+  <div class="panel traffic-panel">
+    <div class="panel-title">📊 PACKET TRAFFIC (LAST 40 INTERVALS)</div>
+    <div class="traffic-bars" id="traffic-bars"></div>
+  </div>
+
+  <!-- Controls -->
+  <div class="panel controls-panel">
+    <div class="panel-title">⚙ FIREWALL CONFIG & ATTACK</div>
+
+    <div class="config-row">
+      <span class="config-label">RATE LIMIT (pkts/sec)</span>
+      <div class="slider-wrap">
+        <input type="range" id="sl-rate" min="5" max="50" value="15">
+        <span class="config-val" id="lbl-rate">15</span>
+      </div>
+    </div>
+    <div class="config-row">
+      <span class="config-label">BAN THRESHOLD (violations)</span>
+      <div class="slider-wrap">
+        <input type="range" id="sl-ban" min="1" max="10" value="3">
+        <span class="config-val" id="lbl-ban">3</span>
+      </div>
+    </div>
+    <div class="config-row">
+      <span class="config-label">ATTACK INTENSITY</span>
+      <div class="slider-wrap">
+        <input type="range" id="sl-intensity" min="1" max="5" value="3">
+        <span class="config-val" id="lbl-intensity">3</span>
+      </div>
+    </div>
+
+    <div class="rules-section">
+      <div class="rule-item">→ SYN packets/IP/sec &gt; limit: <span>RATE-LIMIT</span></div>
+      <div class="rule-item">→ Violations &gt; threshold: <span>PERMANENT BAN</span></div>
+      <div class="rule-item">→ Legit traffic: <span>ALLOW PASS</span></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-attack" id="btn-attack" onclick="startAttack()">▶ LAUNCH ATTACK</button>
+      <button class="btn-stop" onclick="stopAttack()">■ STOP</button>
+      <button class="btn-reset" onclick="resetAll()">↺ RESET</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="status-bar">
+  <div>
+    <span class="status-dot dot-active" id="fw-dot"></span>
+    <span class="firewall-status" id="fw-status">FIREWALL ACTIVE</span>
+  </div>
+  <div id="attack-status" style="color:var(--muted)">NO ACTIVE ATTACK</div>
+  <div id="uptime-display">UPTIME: 00:00:00</div>
+</div>
+
+<script>
+// ─── FIREWALL ENGINE ───────────────────────────────────────────────
+const firewall = {
+  rateLimit: 15,       // max SYN packets per IP per second
+  banThreshold: 3,     // violations before permanent ban
+  windowMs: 1000,      // rate window in ms
+
+  ipTable: {},         // { ip: { count, windowStart, violations, banned } }
+  bannedIPs: new Set(),
+
+  processPacket(ip, timestamp) {
+    if (this.bannedIPs.has(ip)) {
+      return { action: 'BLOCK', reason: 'IP PERMANENTLY BANNED', ip };
+    }
+
+    if (!this.ipTable[ip]) {
+      this.ipTable[ip] = { count: 1, windowStart: timestamp, violations: 0 };
+      return { action: 'ALLOW', reason: 'SYN ACCEPTED', ip };
+    }
+
+    const entry = this.ipTable[ip];
+    const elapsed = timestamp - entry.windowStart;
+
+    if (elapsed > this.windowMs) {
+      // New window
+      entry.count = 1;
+      entry.windowStart = timestamp;
+      return { action: 'ALLOW', reason: 'SYN ACCEPTED', ip };
+    }
+
+    entry.count++;
+
+    if (entry.count > this.rateLimit) {
+      entry.violations++;
+      if (entry.violations >= this.banThreshold) {
+        this.bannedIPs.add(ip);
+        return { action: 'BLOCK', reason: `BANNED after ${entry.violations} violations`, ip };
+      }
+      return { action: 'BLOCK', reason: `RATE EXCEEDED (${entry.count}/${this.rateLimit} pkt/s)`, ip };
+    }
+
+    return { action: 'ALLOW', reason: 'SYN ACCEPTED', ip };
+  },
+
+  reset() {
+    this.ipTable = {};
+    this.bannedIPs = new Set();
+  }
+};
+
+// ─── ATTACK SIMULATOR ──────────────────────────────────────────────
+const ATTACKER_IPS = [
+  '192.168.1.101', '10.0.0.44', '172.16.0.9', '192.168.0.250',
+  '10.10.10.10', '203.0.113.77', '198.51.100.3'
+];
+const LEGIT_IPS = [
+  '192.168.1.5', '10.0.0.1', '172.20.0.3', '192.168.2.10'
+];
+
+let attackInterval = null;
+let legitInterval = null;
+let statsInterval = null;
+let uptimeInterval = null;
+let isAttacking = false;
+
+let stats = { total: 0, allowed: 0, blocked: 0, rate: 0, rateCounter: 0 };
+let trafficHistory = new Array(40).fill(0);
+let startTime = Date.now();
+let lastRateReset = Date.now();
+
+function randomIP(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function getIntensity() { return parseInt(document.getElementById('sl-intensity').value); }
+
+function startAttack() {
+  if (isAttacking) return;
+  isAttacking = true;
+  document.getElementById('btn-attack').classList.add('active');
+  document.getElementById('fw-dot').className = 'status-dot dot-attack';
+  document.getElementById('fw-status').textContent = '⚠ UNDER ATTACK';
+  document.getElementById('fw-status').className = 'firewall-status under-attack';
+  document.getElementById('attack-status').textContent = '🔴 SYN FLOOD ATTACK IN PROGRESS';
+  document.getElementById('attack-status').style.color = 'var(--red)';
+
+  const intensity = getIntensity();
+  const intervalMs = Math.max(10, 80 - intensity * 14);  // faster = more intense
+  const packetsPerTick = intensity * 4;
+
+  attackInterval = setInterval(() => {
+    for (let i = 0; i < packetsPerTick; i++) {
+      sendPacket(randomIP(ATTACKER_IPS));
+    }
+  }, intervalMs);
+}
+
+function stopAttack() {
+  if (!isAttacking) return;
+  isAttacking = false;
+  clearInterval(attackInterval);
+  attackInterval = null;
+  document.getElementById('btn-attack').classList.remove('active');
+  document.getElementById('fw-dot').className = 'status-dot dot-active';
+  document.getElementById('fw-status').textContent = 'FIREWALL ACTIVE';
+  document.getElementById('fw-status').className = 'firewall-status';
+  document.getElementById('attack-status').textContent = 'ATTACK STOPPED';
+  document.getElementById('attack-status').style.color = 'var(--yellow)';
+}
+
+function resetAll() {
+  stopAttack();
+  firewall.reset();
+  stats = { total: 0, allowed: 0, blocked: 0, rate: 0, rateCounter: 0 };
+  trafficHistory = new Array(40).fill(0);
+  document.getElementById('log-body').innerHTML = '';
+  document.getElementById('blocklist-body').innerHTML = '<div style="color:var(--muted);font-size:11px;text-align:center;padding-top:40px;">No IPs blocked yet...</div>';
+  updateStats();
+  renderTraffic();
+  document.getElementById('attack-status').textContent = 'NO ACTIVE ATTACK';
+  document.getElementById('attack-status').style.color = 'var(--muted)';
+}
+
+function sendPacket(ip) {
+  const now = Date.now();
+  const result = firewall.processPacket(ip, now);
+  stats.total++;
+  stats.rateCounter++;
+
+  if (result.action === 'ALLOW') {
+    stats.allowed++;
+    addLog(ip, 'ALLOW', result.reason);
+  } else {
+    stats.blocked++;
+    addLog(ip, 'BLOCK', result.reason);
+    if (firewall.bannedIPs.has(ip)) updateBlocklist(ip);
+  }
+}
+
+// ─── UI UPDATES ────────────────────────────────────────────────────
+const MAX_LOG = 80;
+
+function addLog(ip, action, msg) {
+  const log = document.getElementById('log-body');
+  const now = new Date();
+  const ts = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.innerHTML = `
+    <span class="log-time">${ts}</span>
+    <span class="log-ip">${ip}</span>
+    <span class="log-action-${action.toLowerCase()}">[${action}]</span>
+    <span class="log-msg">${msg}</span>
+  `;
+
+  log.insertBefore(entry, log.firstChild);
+
+  // Trim log
+  while (log.children.length > MAX_LOG) {
+    log.removeChild(log.lastChild);
+  }
+}
+
+const blocklistEntries = {};
+
+function updateBlocklist(ip) {
+  const body = document.getElementById('blocklist-body');
+  const ipEntry = firewall.ipTable[ip];
+  const count = ipEntry ? ipEntry.count : 0;
+
+  if (!blocklistEntries[ip]) {
+    // Remove placeholder
+    const placeholder = body.querySelector('div');
+    if (placeholder && placeholder.textContent.includes('No IPs')) placeholder.remove();
+
+    const el = document.createElement('div');
+    el.className = 'block-entry';
+    el.id = `block-${ip.replace(/\./g,'-')}`;
+    el.innerHTML = `
+      <span class="block-ip">${ip}</span>
+      <span class="block-count" id="bc-${ip.replace(/\./g,'-')}">pkts: ${count}</span>
+      <span class="block-badge">BANNED</span>
+    `;
+    body.insertBefore(el, body.firstChild);
+    blocklistEntries[ip] = true;
+  }
+}
+
+function updateStats() {
+  document.getElementById('stat-total').textContent = stats.total.toLocaleString();
+  document.getElementById('stat-allowed').textContent = stats.allowed.toLocaleString();
+  document.getElementById('stat-blocked').textContent = stats.blocked.toLocaleString();
+  document.getElementById('stat-ips').textContent = firewall.bannedIPs.size;
+  document.getElementById('stat-rate').textContent = stats.rate;
+}
+
+function renderTraffic() {
+  const container = document.getElementById('traffic-bars');
+  container.innerHTML = '';
+  const maxVal = Math.max(...trafficHistory, 1);
+  trafficHistory.forEach((val, i) => {
+    const bar = document.createElement('div');
+    bar.className = 't-bar';
+    const pct = (val / maxVal) * 76;
+    bar.style.height = pct + 'px';
+    // Color: high traffic = red, medium = yellow, low = green
+    const ratio = val / maxVal;
+    if (ratio > 0.7) bar.style.background = `rgba(255,34,68,${0.5 + ratio * 0.5})`;
+    else if (ratio > 0.3) bar.style.background = `rgba(255,204,0,${0.5 + ratio * 0.4})`;
+    else bar.style.background = `rgba(0,255,136,${0.3 + ratio * 0.5})`;
+    container.appendChild(bar);
+  });
+}
+
+// ─── INTERVALS ─────────────────────────────────────────────────────
+
+// Legit traffic (always running at low rate)
+legitInterval = setInterval(() => {
+  sendPacket(randomIP(LEGIT_IPS));
+}, 800);
+
+// Stats + traffic update
+statsInterval = setInterval(() => {
+  // Calc rate
+  const now = Date.now();
+  const elapsed = (now - lastRateReset) / 1000;
+  stats.rate = Math.round(stats.rateCounter / Math.max(elapsed, 0.1));
+  stats.rateCounter = 0;
+  lastRateReset = now;
+
+  trafficHistory.push(stats.rate);
+  if (trafficHistory.length > 40) trafficHistory.shift();
+
+  updateStats();
+  renderTraffic();
+}, 500);
+
+// Uptime
+uptimeInterval = setInterval(() => {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const h = String(Math.floor(elapsed / 3600)).padStart(2,'0');
+  const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2,'0');
+  const s = String(elapsed % 60).padStart(2,'0');
+  document.getElementById('uptime-display').textContent = `UPTIME: ${h}:${m}:${s}`;
+}, 1000);
+
+// ─── SLIDER LISTENERS ──────────────────────────────────────────────
+document.getElementById('sl-rate').addEventListener('input', e => {
+  firewall.rateLimit = parseInt(e.target.value);
+  document.getElementById('lbl-rate').textContent = e.target.value;
+});
+document.getElementById('sl-ban').addEventListener('input', e => {
+  firewall.banThreshold = parseInt(e.target.value);
+  document.getElementById('lbl-ban').textContent = e.target.value;
+});
+document.getElementById('sl-intensity').addEventListener('input', e => {
+  document.getElementById('lbl-intensity').textContent = e.target.value;
+  // Restart attack with new intensity if running
+  if (isAttacking) { stopAttack(); startAttack(); }
+});
+
+// Init traffic bars
+renderTraffic();
+</script>
+</body>
+</html>

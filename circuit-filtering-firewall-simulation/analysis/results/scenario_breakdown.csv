@@ -1,0 +1,9 @@
+scenario,label,decision,packet_count
+blocked_subnet_probe,malicious,deny,18
+dns_resolution,benign,allow,48
+inbound_port_scan,malicious,deny,70
+lateral_movement,malicious,deny,12
+partner_api,benign,allow,54
+risky_egress_attempt,malicious,deny,24
+unknown_c2_channel,malicious,deny,14
+web_browsing,benign,allow,162

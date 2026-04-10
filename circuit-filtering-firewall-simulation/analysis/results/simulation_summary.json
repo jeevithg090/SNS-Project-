@@ -1,0 +1,43 @@
+{
+  "run_timestamp_utc": "2026-04-07T06:19:17.472790+00:00",
+  "seed": 2026,
+  "total_packets": 402,
+  "allowed_packets": 264,
+  "blocked_packets": 138,
+  "allow_rate_percent": 65.67,
+  "block_rate_percent": 34.33,
+  "benign_packets": 264,
+  "malicious_packets": 138,
+  "detection_rate_percent": 100.0,
+  "false_negative_rate_percent": 0.0,
+  "false_positive_rate_percent": 0.0,
+  "accuracy_percent": 100.0,
+  "confusion_matrix": {
+    "tp_malicious_blocked": 138,
+    "fn_malicious_allowed": 0,
+    "fp_benign_blocked": 0,
+    "tn_benign_allowed": 264
+  },
+  "avg_processing_ms": 0.00942,
+  "p95_processing_ms": 0.01917,
+  "peak_active_circuits": 24,
+  "avg_active_circuits": 2.23,
+  "expired_circuit_entries": 0,
+  "rule_hits": {
+    "101": 16,
+    "STATEFUL_RETURN": 218,
+    "DEFAULT_DENY": 84,
+    "202": 24,
+    "201": 18,
+    "PERIMETER_ONLY": 12,
+    "102": 6,
+    "103": 24
+  },
+  "figure_files": [
+    "/Users/jeevithg/Downloads/proxy-firewall-project/circuit-filtering-firewall-simulation/analysis/figures/fig1_decision_timeline.png",
+    "/Users/jeevithg/Downloads/proxy-firewall-project/circuit-filtering-firewall-simulation/analysis/figures/fig2_circuit_utilization.png",
+    "/Users/jeevithg/Downloads/proxy-firewall-project/circuit-filtering-firewall-simulation/analysis/figures/fig3_rule_hit_distribution.png",
+    "/Users/jeevithg/Downloads/proxy-firewall-project/circuit-filtering-firewall-simulation/analysis/figures/fig4_decision_matrix.png",
+    "/Users/jeevithg/Downloads/proxy-firewall-project/circuit-filtering-firewall-simulation/analysis/figures/fig5_scenario_breakdown.png"
+  ]
+}

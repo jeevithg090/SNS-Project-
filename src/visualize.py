@@ -1,6 +1,9 @@
+"""Matplotlib/seaborn figures summarising a simulation run."""
+
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 import matplotlib
 
@@ -91,7 +94,7 @@ def _fig_circuit_table(df: pd.DataFrame, out_dir: Path) -> Path:
     return path
 
 
-def _fig_rule_hits(summary: dict, out_dir: Path) -> Path:
+def _fig_rule_hits(summary: dict[str, Any], out_dir: Path) -> Path:
     rule_hits = pd.Series(summary["rule_hits"], dtype="int64").sort_values(ascending=False)
     labels = [f"Rule {idx}" if str(idx).isdigit() else idx for idx in rule_hits.index]
 
@@ -170,7 +173,8 @@ def _fig_scenario_breakdown(df: pd.DataFrame, out_dir: Path) -> Path:
     return path
 
 
-def generate_figures(df: pd.DataFrame, summary: dict, out_dir: Path) -> list[str]:
+def generate_figures(df: pd.DataFrame, summary: dict[str, Any], out_dir: Path) -> list[Path]:
+    """Render all five figures into ``out_dir`` and return their paths in order."""
     _prepare_figure()
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -182,4 +186,4 @@ def generate_figures(df: pd.DataFrame, summary: dict, out_dir: Path) -> list[str
         _fig_scenario_breakdown(df, out_dir),
     ]
 
-    return [str(path) for path in figures]
+    return figures

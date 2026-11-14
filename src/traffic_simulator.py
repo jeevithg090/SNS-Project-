@@ -1,3 +1,5 @@
+"""Deterministic synthetic traffic: benign sessions plus labelled attack scenarios."""
+
 from __future__ import annotations
 
 from random import Random
@@ -53,11 +55,17 @@ def _add_tcp_session(
 
     burst_time = current + 70
     for _ in range(payload_bursts):
-        _add_packet(events, burst_time, client_ip, server_ip, client_port, server_port, "tcp", "PSH-ACK", label, scenario)
-        _add_packet(events, burst_time + 20, server_ip, client_ip, server_port, client_port, "tcp", "PSH-ACK", label, scenario)
+        _add_packet(
+            events, burst_time, client_ip, server_ip, client_port, server_port, "tcp", "PSH-ACK", label, scenario
+        )
+        _add_packet(
+            events, burst_time + 20, server_ip, client_ip, server_port, client_port, "tcp", "PSH-ACK", label, scenario
+        )
         burst_time += rng.randint(55, 85)
 
-    _add_packet(events, burst_time + 8, client_ip, server_ip, client_port, server_port, "tcp", "FIN-ACK", label, scenario)
+    _add_packet(
+        events, burst_time + 8, client_ip, server_ip, client_port, server_port, "tcp", "FIN-ACK", label, scenario
+    )
     _add_packet(events, burst_time + 24, server_ip, client_ip, server_port, client_port, "tcp", "ACK", label, scenario)
 
     return burst_time + 35
@@ -76,7 +84,18 @@ def _add_udp_exchange(
     client_port = rng.randint(20000, 59000)
 
     _add_packet(events, start_ms, client_ip, server_ip, client_port, dst_port, "udp", "QUERY", label, scenario)
-    _add_packet(events, start_ms + rng.randint(8, 20), server_ip, client_ip, dst_port, client_port, "udp", "RESPONSE", label, scenario)
+    _add_packet(
+        events,
+        start_ms + rng.randint(8, 20),
+        server_ip,
+        client_ip,
+        dst_port,
+        client_port,
+        "udp",
+        "RESPONSE",
+        label,
+        scenario,
+    )
     return start_ms + rng.randint(35, 60)
 
 

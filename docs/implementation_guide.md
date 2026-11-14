@@ -20,10 +20,11 @@ That is intentional, because circuit filtering focuses on session behavior, not 
 - `Rule`: ordered filtering rule with CIDR/port/protocol matching.
 - `CircuitEntry`: state-table row for an active session.
 - `CircuitFirewall`: processing engine with:
-  - Direction classification (`outbound`, `inbound`, `lateral`)
+  - Direction classification (`outbound`, `inbound`, `lateral` for internal↔internal, `transit` for external↔external)
   - Rule matching (first-match wins)
   - Circuit table lookup and state transitions
-  - Decision logging (`allow` / `deny` + reason)
+  - Decision logging (`allow` / `deny` + reason), with monotonically increasing circuit IDs (`C-0001`, `C-0002`, ...)
+- `Rule` validates its action, direction, protocol and ports when it is created and raises `ValueError` on bad input.
 
 ### `src/traffic_simulator.py`
 
@@ -94,7 +95,9 @@ for each packet:
   expire old circuit entries
   classify direction
 
-  if packet maps to existing circuit:
+  if direction is lateral or transit:
+      deny (PERIMETER_ONLY: traffic is not crossing the perimeter)
+  elif packet maps to existing circuit:
       allow (stateful return)
       update circuit state
   else:
@@ -124,21 +127,35 @@ These values are in:
 
 ## 7. How To Reproduce
 
-From repo root:
+From the repository root, after `pip install -r requirements.txt`:
 
 ```bash
-python3 circuit-filtering-firewall-simulation/src/run_simulation.py --seed 2026
+python src/run_simulation.py --seed 2026
 ```
 
-To produce a different deterministic run:
+To produce a different deterministic run, or to write somewhere other than `analysis/`:
 
 ```bash
-python3 circuit-filtering-firewall-simulation/src/run_simulation.py --seed 42
+python src/run_simulation.py --seed 42 --output-dir /tmp/run-42
 ```
+
+`simulation_summary.json` stores figure paths relative to the output directory, so result sets can be moved
+between machines.
 
 ## 8. How To Extend
 
 - Add CIDR-based geofencing rules in `build_default_rules()`.
-- Add circuit timeout stress tests by reducing `circuit_timeout_ms`.
+- Add circuit timeout stress tests by reducing `CIRCUIT_TIMEOUT_MS` in `src/run_simulation.py`.
 - Add NAT simulation fields (translated IP/port) in `Packet` and `CircuitEntry`.
 - Add live packet replay by replacing synthetic generator with PCAP-driven metadata.
+
+## 9. Companion: DoS Rate-Limiting Simulator
+
+`web/index.html` is a separate, browser-based demo of a different defence: per-source-IP SYN rate limiting.
+The engine (`web/rate-limiter.js`) works like this:
+
+- Each IP gets a fixed window (`windowMs`, 1 s by default) in which it may send `rateLimit` packets.
+- Every packet over the limit inside a window counts as a violation and is blocked.
+- An IP that reaches `banThreshold` violations is banned permanently, until the user clicks reset.
+
+Unit tests are in `tests/web/rate-limiter.test.js`. Run them with `node --test tests/web/*.test.js`.

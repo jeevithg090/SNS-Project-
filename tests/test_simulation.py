@@ -54,3 +54,21 @@ def test_cli_writes_all_artifacts(tmp_path, capsys):
         assert (tmp_path / rel).stat().st_size > 0
 
     assert "Accuracy: 100.0%" in capsys.readouterr().out
+
+
+def test_cli_rejects_output_dir_that_is_a_file(tmp_path, capsys):
+    target = tmp_path / "not-a-dir"
+    target.write_text("x")
+    with pytest.raises(SystemExit) as excinfo:
+        main(["--output-dir", str(target)])
+    assert excinfo.value.code == 2
+    assert "is not a directory" in capsys.readouterr().err
+
+
+def test_cli_help_lists_examples(capsys):
+    with pytest.raises(SystemExit) as excinfo:
+        main(["--help"])
+    assert excinfo.value.code == 0
+    out = capsys.readouterr().out
+    assert "examples:" in out
+    assert "--output-dir DIR" in out

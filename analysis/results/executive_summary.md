@@ -11,7 +11,7 @@ This run demonstrates a circuit filtering firewall that uses stateful session tr
 - False positive rate (benign blocked): **0.0%**
 - Accuracy: **100.0%**
 - Peak active circuits: **24**
-- p95 per-packet processing time: **0.01917 ms**
+- p95 per-packet processing time: **0.01714 ms**
 
 ## Generated Figures
 - `fig1_decision_timeline.png`

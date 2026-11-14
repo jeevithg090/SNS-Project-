@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DoS Firewall Simulator</title>
+<meta name="description" content="Interactive browser simulation of a rate-limiting firewall defending against a SYN flood: per-IP rate limits, violation counting and automatic bans.">
+<meta name="theme-color" content="#050a0e">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
 
@@ -17,7 +19,7 @@
     --cyan: #00d4ff;
     --dim: #1a3a4a;
     --text: #a0d4e0;
-    --muted: #3a6070;
+    --muted: #6b93a3;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -61,7 +63,7 @@
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto;
     gap: 10px;
     max-width: 1200px;
     margin: 0 auto;
@@ -95,7 +97,7 @@
   }
 
   /* Stats row */
-  .stats-row { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-width: 1200px; margin: 0 auto 10px; }
 
   .stat-box {
     background: var(--panel);
@@ -122,7 +124,7 @@
   .sv-rate { color: var(--cyan); text-shadow: 0 0 15px rgba(0,212,255,0.4); }
 
   /* Log panel */
-  .log-panel { grid-column: 1 / 3; grid-row: 2; height: 280px; }
+  .log-panel { grid-column: 1 / 3; grid-row: 1; height: 280px; }
 
   .log-body {
     height: 240px;
@@ -143,7 +145,7 @@
   .log-msg { color: var(--text); font-size: 10px; }
 
   /* IP blocklist */
-  .blocklist-panel { grid-column: 3; grid-row: 2; height: 280px; }
+  .blocklist-panel { grid-column: 3; grid-row: 1; height: 280px; }
 
   .blocklist-body { height: 240px; overflow-y: auto; font-size: 11px; }
   .blocklist-body::-webkit-scrollbar { width: 4px; }
@@ -180,7 +182,7 @@
   }
 
   /* Traffic visualizer */
-  .traffic-panel { grid-column: 1 / 3; grid-row: 3; }
+  .traffic-panel { grid-column: 1 / 3; grid-row: 2; }
 
   .traffic-bars {
     display: flex;
@@ -198,7 +200,7 @@
   }
 
   /* Config & Controls */
-  .controls-panel { grid-column: 3; grid-row: 3; }
+  .controls-panel { grid-column: 3; grid-row: 2; }
 
   .config-row {
     display: flex;
@@ -314,14 +316,55 @@
     100% { opacity: 1; transform: translateX(0); }
   }
   .log-entry { animation: attackWave 0.15s ease; }
+
+  .empty-state { color: var(--muted); font-size: 11px; text-align: center; padding-top: 40px; }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+
+  button:focus-visible, input[type=range]:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+  }
+
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  noscript p { max-width: 1200px; margin: 0 auto 10px; color: var(--yellow); text-align: center; }
+
+  /* Responsive layout */
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .log-panel, .blocklist-panel, .traffic-panel, .controls-panel { grid-column: 1; grid-row: auto; }
+    .stats-row { grid-template-columns: repeat(3, 1fr); }
+    .status-bar { flex-wrap: wrap; gap: 8px 16px; }
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 12px; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .log-ip { min-width: 96px; }
+    .log-msg { flex-basis: 100%; }
+    .log-entry { flex-wrap: wrap; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
 </style>
 </head>
 <body>
 
-<h1>⚡ DOS FIREWALL SIMULATOR ⚡</h1>
-<p class="subtitle">RATE-LIMITING / SYN-FLOOD PROTECTION ENGINE — LIVE SIMULATION</p>
+<header>
+  <h1><span aria-hidden="true">⚡ </span>DOS FIREWALL SIMULATOR<span aria-hidden="true"> ⚡</span></h1>
+  <p class="subtitle">RATE-LIMITING / SYN-FLOOD PROTECTION ENGINE — LIVE SIMULATION</p>
+</header>
 
-<div class="stats-row">
+<noscript><p>This simulator needs JavaScript enabled to run.</p></noscript>
+
+<main>
+<section class="stats-row" aria-label="Firewall statistics">
   <div class="stat-box">
     <div class="stat-value sv-total" id="stat-total">0</div>
     <div class="stat-label">TOTAL PACKETS</div>
@@ -342,53 +385,54 @@
     <div class="stat-value sv-rate" id="stat-rate">0</div>
     <div class="stat-label">PACKETS/SEC</div>
   </div>
-</div>
+</section>
 
 <div class="grid">
 
   <!-- Log Panel -->
   <div class="panel log-panel">
-    <div class="panel-title">▶ FIREWALL PACKET LOG</div>
-    <div class="log-body" id="log-body"></div>
+    <h2 class="panel-title" id="log-title"><span aria-hidden="true">▶ </span>FIREWALL PACKET LOG</h2>
+    <div class="log-body" id="log-body" role="log" aria-labelledby="log-title" aria-live="off" tabindex="0"></div>
   </div>
 
   <!-- Blocklist -->
   <div class="panel blocklist-panel">
-    <div class="panel-title">🔒 BLOCKED IP REGISTRY</div>
-    <div class="blocklist-body" id="blocklist-body">
-      <div style="color:var(--muted);font-size:11px;text-align:center;padding-top:40px;">No IPs blocked yet...</div>
+    <h2 class="panel-title" id="blocklist-title"><span aria-hidden="true">🔒 </span>BLOCKED IP REGISTRY</h2>
+    <div class="blocklist-body" id="blocklist-body" aria-labelledby="blocklist-title" tabindex="0">
+      <div class="empty-state" id="blocklist-empty">No IPs blocked yet...</div>
     </div>
   </div>
 
   <!-- Traffic chart -->
   <div class="panel traffic-panel">
-    <div class="panel-title">📊 PACKET TRAFFIC (LAST 40 INTERVALS)</div>
-    <div class="traffic-bars" id="traffic-bars"></div>
+    <h2 class="panel-title" id="traffic-title"><span aria-hidden="true">📊 </span>PACKET TRAFFIC (LAST 40 INTERVALS)</h2>
+    <div class="traffic-bars" id="traffic-bars" role="img" aria-labelledby="traffic-title" aria-describedby="traffic-desc"></div>
+    <p class="sr-only" id="traffic-desc">Bar chart of packets per second over the last 40 half-second intervals.</p>
   </div>
 
   <!-- Controls -->
   <div class="panel controls-panel">
-    <div class="panel-title">⚙ FIREWALL CONFIG & ATTACK</div>
+    <h2 class="panel-title"><span aria-hidden="true">⚙ </span>FIREWALL CONFIG &amp; ATTACK</h2>
 
     <div class="config-row">
-      <span class="config-label">RATE LIMIT (pkts/sec)</span>
+      <label class="config-label" for="sl-rate">RATE LIMIT (pkts/sec)</label>
       <div class="slider-wrap">
         <input type="range" id="sl-rate" min="5" max="50" value="15">
-        <span class="config-val" id="lbl-rate">15</span>
+        <output class="config-val" id="lbl-rate" for="sl-rate">15</output>
       </div>
     </div>
     <div class="config-row">
-      <span class="config-label">BAN THRESHOLD (violations)</span>
+      <label class="config-label" for="sl-ban">BAN THRESHOLD (violations)</label>
       <div class="slider-wrap">
         <input type="range" id="sl-ban" min="1" max="10" value="3">
-        <span class="config-val" id="lbl-ban">3</span>
+        <output class="config-val" id="lbl-ban" for="sl-ban">3</output>
       </div>
     </div>
     <div class="config-row">
-      <span class="config-label">ATTACK INTENSITY</span>
+      <label class="config-label" for="sl-intensity">ATTACK INTENSITY</label>
       <div class="slider-wrap">
         <input type="range" id="sl-intensity" min="1" max="5" value="3">
-        <span class="config-val" id="lbl-intensity">3</span>
+        <output class="config-val" id="lbl-intensity" for="sl-intensity">3</output>
       </div>
     </div>
 
@@ -399,72 +443,29 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn-attack" id="btn-attack" onclick="startAttack()">▶ LAUNCH ATTACK</button>
-      <button class="btn-stop" onclick="stopAttack()">■ STOP</button>
-      <button class="btn-reset" onclick="resetAll()">↺ RESET</button>
+      <button type="button" class="btn-attack" id="btn-attack" aria-pressed="false"><span aria-hidden="true">▶ </span>LAUNCH ATTACK</button>
+      <button type="button" class="btn-stop" id="btn-stop" disabled><span aria-hidden="true">■ </span>STOP</button>
+      <button type="button" class="btn-reset" id="btn-reset"><span aria-hidden="true">↺ </span>RESET</button>
     </div>
   </div>
 
 </div>
 
-<div class="status-bar">
+</main>
+
+<footer class="status-bar">
   <div>
     <span class="status-dot dot-active" id="fw-dot"></span>
     <span class="firewall-status" id="fw-status">FIREWALL ACTIVE</span>
   </div>
-  <div id="attack-status" style="color:var(--muted)">NO ACTIVE ATTACK</div>
+  <div id="attack-status" role="status" style="color:var(--muted)">NO ACTIVE ATTACK</div>
   <div id="uptime-display">UPTIME: 00:00:00</div>
-</div>
+</footer>
 
+<script src="rate-limiter.js"></script>
 <script>
 // ─── FIREWALL ENGINE ───────────────────────────────────────────────
-const firewall = {
-  rateLimit: 15,       // max SYN packets per IP per second
-  banThreshold: 3,     // violations before permanent ban
-  windowMs: 1000,      // rate window in ms
-
-  ipTable: {},         // { ip: { count, windowStart, violations, banned } }
-  bannedIPs: new Set(),
-
-  processPacket(ip, timestamp) {
-    if (this.bannedIPs.has(ip)) {
-      return { action: 'BLOCK', reason: 'IP PERMANENTLY BANNED', ip };
-    }
-
-    if (!this.ipTable[ip]) {
-      this.ipTable[ip] = { count: 1, windowStart: timestamp, violations: 0 };
-      return { action: 'ALLOW', reason: 'SYN ACCEPTED', ip };
-    }
-
-    const entry = this.ipTable[ip];
-    const elapsed = timestamp - entry.windowStart;
-
-    if (elapsed > this.windowMs) {
-      // New window
-      entry.count = 1;
-      entry.windowStart = timestamp;
-      return { action: 'ALLOW', reason: 'SYN ACCEPTED', ip };
-    }
-
-    entry.count++;
-
-    if (entry.count > this.rateLimit) {
-      entry.violations++;
-      if (entry.violations >= this.banThreshold) {
-        this.bannedIPs.add(ip);
-        return { action: 'BLOCK', reason: `BANNED after ${entry.violations} violations`, ip };
-      }
-      return { action: 'BLOCK', reason: `RATE EXCEEDED (${entry.count}/${this.rateLimit} pkt/s)`, ip };
-    }
-
-    return { action: 'ALLOW', reason: 'SYN ACCEPTED', ip };
-  },
-
-  reset() {
-    this.ipTable = {};
-    this.bannedIPs = new Set();
-  }
-};
+const firewall = new RateLimitFirewall({ rateLimit: 15, banThreshold: 3, windowMs: 1000 });
 
 // ─── ATTACK SIMULATOR ──────────────────────────────────────────────
 const ATTACKER_IPS = [
@@ -493,7 +494,10 @@ function getIntensity() { return parseInt(document.getElementById('sl-intensity'
 function startAttack() {
   if (isAttacking) return;
   isAttacking = true;
-  document.getElementById('btn-attack').classList.add('active');
+  const attackBtn = document.getElementById('btn-attack');
+  attackBtn.classList.add('active');
+  attackBtn.setAttribute('aria-pressed', 'true');
+  document.getElementById('btn-stop').disabled = false;
   document.getElementById('fw-dot').className = 'status-dot dot-attack';
   document.getElementById('fw-status').textContent = '⚠ UNDER ATTACK';
   document.getElementById('fw-status').className = 'firewall-status under-attack';
@@ -516,7 +520,10 @@ function stopAttack() {
   isAttacking = false;
   clearInterval(attackInterval);
   attackInterval = null;
-  document.getElementById('btn-attack').classList.remove('active');
+  const attackBtn = document.getElementById('btn-attack');
+  attackBtn.classList.remove('active');
+  attackBtn.setAttribute('aria-pressed', 'false');
+  document.getElementById('btn-stop').disabled = true;
   document.getElementById('fw-dot').className = 'status-dot dot-active';
   document.getElementById('fw-status').textContent = 'FIREWALL ACTIVE';
   document.getElementById('fw-status').className = 'firewall-status';
@@ -529,8 +536,13 @@ function resetAll() {
   firewall.reset();
   stats = { total: 0, allowed: 0, blocked: 0, rate: 0, rateCounter: 0 };
   trafficHistory = new Array(40).fill(0);
-  document.getElementById('log-body').innerHTML = '';
-  document.getElementById('blocklist-body').innerHTML = '<div style="color:var(--muted);font-size:11px;text-align:center;padding-top:40px;">No IPs blocked yet...</div>';
+  document.getElementById('log-body').replaceChildren();
+  for (const ip of Object.keys(blocklistEntries)) delete blocklistEntries[ip];
+  const empty = document.createElement('div');
+  empty.className = 'empty-state';
+  empty.id = 'blocklist-empty';
+  empty.textContent = 'No IPs blocked yet...';
+  document.getElementById('blocklist-body').replaceChildren(empty);
   updateStats();
   renderTraffic();
   document.getElementById('attack-status').textContent = 'NO ACTIVE ATTACK';
@@ -549,7 +561,7 @@ function sendPacket(ip) {
   } else {
     stats.blocked++;
     addLog(ip, 'BLOCK', result.reason);
-    if (firewall.bannedIPs.has(ip)) updateBlocklist(ip);
+    if (firewall.bannedIPs.has(ip)) recordBannedPacket(ip);
   }
 }
 
@@ -563,12 +575,12 @@ function addLog(ip, action, msg) {
 
   const entry = document.createElement('div');
   entry.className = 'log-entry';
-  entry.innerHTML = `
-    <span class="log-time">${ts}</span>
-    <span class="log-ip">${ip}</span>
-    <span class="log-action-${action.toLowerCase()}">[${action}]</span>
-    <span class="log-msg">${msg}</span>
-  `;
+  entry.append(
+    makeSpan('log-time', ts),
+    makeSpan('log-ip', ip),
+    makeSpan(`log-action-${action.toLowerCase()}`, `[${action}]`),
+    makeSpan('log-msg', msg),
+  );
 
   log.insertBefore(entry, log.firstChild);
 
@@ -578,29 +590,33 @@ function addLog(ip, action, msg) {
   }
 }
 
+function makeSpan(className, text) {
+  const span = document.createElement('span');
+  span.className = className;
+  span.textContent = text;
+  return span;
+}
+
+// ip -> { countEl, blocked } for every banned address shown in the registry.
 const blocklistEntries = {};
 
-function updateBlocklist(ip) {
+function recordBannedPacket(ip) {
   const body = document.getElementById('blocklist-body');
-  const ipEntry = firewall.ipTable[ip];
-  const count = ipEntry ? ipEntry.count : 0;
+  let entry = blocklistEntries[ip];
 
-  if (!blocklistEntries[ip]) {
-    // Remove placeholder
-    const placeholder = body.querySelector('div');
-    if (placeholder && placeholder.textContent.includes('No IPs')) placeholder.remove();
+  if (!entry) {
+    document.getElementById('blocklist-empty')?.remove();
 
     const el = document.createElement('div');
     el.className = 'block-entry';
-    el.id = `block-${ip.replace(/\./g,'-')}`;
-    el.innerHTML = `
-      <span class="block-ip">${ip}</span>
-      <span class="block-count" id="bc-${ip.replace(/\./g,'-')}">pkts: ${count}</span>
-      <span class="block-badge">BANNED</span>
-    `;
+    const countEl = makeSpan('block-count', '');
+    el.append(makeSpan('block-ip', ip), countEl, makeSpan('block-badge', 'BANNED'));
     body.insertBefore(el, body.firstChild);
-    blocklistEntries[ip] = true;
+    entry = blocklistEntries[ip] = { countEl, blocked: 0 };
   }
+
+  entry.blocked++;
+  entry.countEl.textContent = `blocked: ${entry.blocked}`;
 }
 
 function updateStats() {
@@ -613,7 +629,7 @@ function updateStats() {
 
 function renderTraffic() {
   const container = document.getElementById('traffic-bars');
-  container.innerHTML = '';
+  container.replaceChildren();
   const maxVal = Math.max(...trafficHistory, 1);
   trafficHistory.forEach((val, i) => {
     const bar = document.createElement('div');
@@ -675,6 +691,10 @@ document.getElementById('sl-intensity').addEventListener('input', e => {
   // Restart attack with new intensity if running
   if (isAttacking) { stopAttack(); startAttack(); }
 });
+
+document.getElementById('btn-attack').addEventListener('click', startAttack);
+document.getElementById('btn-stop').addEventListener('click', stopAttack);
+document.getElementById('btn-reset').addEventListener('click', resetAll);
 
 // Init traffic bars
 renderTraffic();

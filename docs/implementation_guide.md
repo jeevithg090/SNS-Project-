@@ -158,4 +158,9 @@ The engine (`web/rate-limiter.js`) works like this:
 - Every packet over the limit inside a window counts as a violation and is blocked.
 - An IP that reaches `banThreshold` violations is banned permanently, until the user clicks reset.
 
+The page is split into `index.html` (markup and meta tags), `styles.css` (design tokens for spacing, type
+and per-theme colours, plus components) and `app.js` (traffic generation, controls and rendering). `app.js`
+batches packets and renders them a few times per second, so the page stays responsive at the highest
+attack intensity (about 2,000 packets per second).
+
 Unit tests are in `tests/web/rate-limiter.test.js`. Run them with `node --test tests/web/*.test.js`.

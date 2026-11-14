@@ -176,8 +176,31 @@ def run(seed: int = DEFAULT_SEED, output_dir: Path = DEFAULT_OUTPUT_DIR) -> dict
     return summary
 
 
-def main(argv: list[str] | None = None) -> None:
-    parser = argparse.ArgumentParser(description="Run the circuit filtering firewall simulation")
+CLI_EPILOG = """\
+examples:
+  python src/run_simulation.py                     reference run (seed 2026) into analysis/
+  python src/run_simulation.py --seed 42           another reproducible traffic mix
+  python src/run_simulation.py --output-dir out/   keep analysis/ untouched
+
+outputs (under the output directory):
+  results/circuit_packet_log.csv   one row per packet with decision, rule and circuit state
+  results/scenario_breakdown.csv   packet counts per scenario, label and decision
+  results/simulation_summary.json  metrics, confusion matrix and rule hits
+  results/executive_summary.md     short Markdown report
+  figures/fig1..fig5_*.png         report figures
+"""
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="run_simulation.py",
+        description=(
+            "Replay seeded benign and attack traffic through a stateful circuit filtering firewall, "
+            "then write a decision log, metrics and report figures."
+        ),
+        epilog=CLI_EPILOG,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     parser.add_argument(
         "--seed",
         type=int,
@@ -188,21 +211,42 @@ def main(argv: list[str] | None = None) -> None:
         "--output-dir",
         type=Path,
         default=DEFAULT_OUTPUT_DIR,
+        metavar="DIR",
         help="directory that receives results/ and figures/ (default: analysis/)",
     )
+    return parser
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = build_parser()
     args = parser.parse_args(argv)
 
-    summary = run(seed=args.seed, output_dir=args.output_dir)
+    if args.output_dir.exists() and not args.output_dir.is_dir():
+        parser.error(f"--output-dir {args.output_dir} exists and is not a directory")
+
+    print(f"Running circuit filtering simulation (seed {args.seed})...", flush=True)
+    try:
+        summary = run(seed=args.seed, output_dir=args.output_dir)
+    except PermissionError as exc:
+        parser.exit(1, f"error: cannot write to {exc.filename or args.output_dir}: permission denied\n")
     paths = OutputPaths(args.output_dir)
 
     print("\n=== CIRCUIT FILTERING FIREWALL SIMULATION ===")
-    print(f"Packet log: {paths.packet_log}")
-    print(f"Summary JSON: {paths.summary}")
-    print(f"Scenario CSV: {paths.scenarios}")
-    print(f"Figures directory: {paths.figures_dir}")
+    print(
+        f"Packets: {summary['total_packets']} "
+        f"({summary['benign_packets']} benign, {summary['malicious_packets']} malicious)"
+    )
+    print(f"Allowed / blocked: {summary['allowed_packets']} / {summary['blocked_packets']}")
     print(f"Detection rate: {summary['detection_rate_percent']}%")
     print(f"False positive rate: {summary['false_positive_rate_percent']}%")
     print(f"Accuracy: {summary['accuracy_percent']}%")
+    print(f"Peak active circuits: {summary['peak_active_circuits']}")
+    print("\nOutputs:")
+    print(f"  Packet log:    {paths.packet_log}")
+    print(f"  Summary JSON:  {paths.summary}")
+    print(f"  Scenario CSV:  {paths.scenarios}")
+    print(f"  Report:        {paths.executive_summary}")
+    print(f"  Figures:       {paths.figures_dir} ({len(summary['figure_files'])} PNG files)")
 
 
 if __name__ == "__main__":

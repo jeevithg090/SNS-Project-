@@ -1,0 +1,22 @@
+[project]
+name = "circuit-filtering-firewall-simulation"
+version = "1.0.0"
+description = "Stateful circuit-level firewall simulation with attack scenarios and reporting"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["circuit_firewall", "traffic_simulator", "visualize", "run_simulation"]
